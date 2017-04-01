@@ -35,7 +35,6 @@ Thumbs.db
 
 # Logs
 backend/logs
-backend/*.log
 backend/npm-debug.log*
 
 # Runtime data
@@ -71,12 +70,5 @@ backend/.npm
 # Optional REPL history
 backend/.node_repl_history
 
-# MAC & IntelliJ Folders
-backend/.DS_Store
-backend/.idea
-
 # Env file
 backend/.env
-
-# Custom rules
-backend/db/.idea
