@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xavo95/starthack2017-backend.git"
+    "url": "git+https://github.com/arghasarkar/MLHPrime.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xavo95/starthack2017-backend.git/issues"
+    "url": "https://github.com/arghasarkar/MLHPrime.git/issues"
   },
-  "homepage": "https://github.com/xavo95/starthack2017-backend.git#readme",
+  "homepage": "https://github.com/arghasarkar/MLHPrime.git#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "connect-timeout": "^1.7.0",
