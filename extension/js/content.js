@@ -9,3 +9,7 @@ for (i = 0; i < messageHolderElements.length; i++) {
   names.push(res);
   messages.push(document.getElementsByClassName("message-text")[i].children[1].innerText);
 }
+
+/**
+ * TODO: Send encrypted messages to background.js to be decryted. Then replace the existing message by the decrypted version.
+ */
