@@ -13,9 +13,21 @@ module.exports = function (parentRouter) {
                     res
                 ];
 
-                db.fetchItem('get_user', params, function (databasereturned) {
+                db.fetchItem('get_user_id', params, function (databasereturned) {
                     response.json(databasereturned);
                 });
+            });
+        })
+
+        .get('/get_key_by_phone', function (request, response) {
+            var params = [
+                request.query.mobile_phone
+            ];
+
+            db.fetchItem('get_user_id_by_phone', params, function (databasereturned) {
+                var jsonobject = databasereturned;
+                //jsonobject.get = decryptedmessage;
+                response.json(jsonobject);
             });
         })
 
