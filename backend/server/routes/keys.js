@@ -27,7 +27,7 @@ module.exports = function (parentRouter) {
                     res
                 ];
 
-                db.fetchItemAndReturn('post', params, response);
+                db.fetchItemAndReturn('new_user', params, response);
             });
         });
 
