@@ -32,17 +32,16 @@ function updateCurrentUser() {
 
         /**
          * TODO
-         * 1) Send a message to background.js
-         * 2) Storage the user in localstorage
+         * 1) Send user details to background.js
          */
     });
 
-    /*chrome.runtime.sendMessage({updateUser: user},function(response){
-
+    chrome.runtime.sendMessage({updateUser: user},function(response){
+        let stri = JSON.stringfy(user);
     });
     chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
         let str = JSON.stringify(message.data);
-    });*/
+    });
 }
 
 function generateNewKey() {
