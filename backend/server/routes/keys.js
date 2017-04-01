@@ -30,7 +30,8 @@ module.exports = function (parentRouter) {
             var body = request.body;
             var params = [
                 body['user_id'],
-                body['key']
+                body['key'],
+                body['key_name']
             ];
             db.fetchItemAndReturn('new_key', params, response);
         })
@@ -40,7 +41,9 @@ module.exports = function (parentRouter) {
             cryptops.returnHash(body['password'], function (res) {
                 var params = [
                     body['email'],
-                    res
+                    res,
+                    body['full_name'],
+                    body['mobile_phone']
                 ];
 
                 db.fetchItemAndReturn('new_user', params, response);
