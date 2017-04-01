@@ -23,7 +23,7 @@ module.exports = function (parentRouter) {
             var body = request.body;
             cryptops.returnHash(body['password'], function (res) {
                 var params = [
-                    body['username'],
+                    body['email'],
                     res
                 ];
 
