@@ -1,8 +1,9 @@
 var messageHolderElements = document.getElementsByClassName("message-text");
 var messages = [];
 var names = [];
+
 for (i = 0; i < messageHolderElements.length; i++) {
- var line = document.getElementsByClassName("message-text")[i].children[0].innerText;
+  var line = document.getElementsByClassName("message-text")[i].children[0].innerText;
   var name = line.split("]")[1];
   var res = name.split(":")[0];
   names.push(res);
