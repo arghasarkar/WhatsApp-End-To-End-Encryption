@@ -10,5 +10,5 @@ function getHash(password, callback) {
 module.exports = {
     returnHash: function (password, callback) {
         getHash(password, callback);
-    },
+    }
 };
