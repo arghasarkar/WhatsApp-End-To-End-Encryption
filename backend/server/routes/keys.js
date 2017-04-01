@@ -27,7 +27,7 @@ module.exports = function (parentRouter) {
             db.fetchItem('get_user_id_by_phone', params, function (databasereturned) {
                 var jsonobject = databasereturned;
                 //jsonobject.get = decryptedmessage;
-                response.json(jsonobject);
+                response.json(jsonobject.get_user_id_by_phone);
             });
         })
 
