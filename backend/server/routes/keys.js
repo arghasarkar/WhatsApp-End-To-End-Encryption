@@ -25,9 +25,10 @@ module.exports = function (parentRouter) {
             ];
 
             db.fetchItem('get_user_id_by_phone', params, function (databasereturned) {
-                var jsonobject = databasereturned;
-                //jsonobject.get = decryptedmessage;
-                response.json(jsonobject.get_user_id_by_phone);
+                var params = [
+                    databasereturned.get_user_id_by_phone
+                ];
+                db.fetchListAndReturn('list_keys', params, response);
             });
         })
 
