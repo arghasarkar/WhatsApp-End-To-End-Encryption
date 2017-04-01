@@ -6,10 +6,11 @@ module.exports = function (parentRouter) {
     var messagesRouter = express.Router();
 
     messagesRouter
-        .get('/get_id', function (request, response) {
-            cryptops.returnHash(request.query.password, function (res) {
+        .post('/get_id', function (request, response) {
+            var body = request.body;
+            cryptops.returnHash(body['password'], function (res) {
                 var params = [
-                    request.query.email,
+                    body['email'],
                     res
                 ];
                 db.fetchItem('get_user_id', params, function (databasereturned) {
