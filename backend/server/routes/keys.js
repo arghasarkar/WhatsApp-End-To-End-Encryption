@@ -39,7 +39,7 @@ module.exports = function (parentRouter) {
 
             db.fetchItem('get_user_id_by_mail', params, function (databasereturned) {
                 var params = [
-                    databasereturned.get_user_id_by_phone
+                    databasereturned.get_user_id_by_mail
                 ];
                 db.fetchListAndReturn('list_keys', params, response);
             });
