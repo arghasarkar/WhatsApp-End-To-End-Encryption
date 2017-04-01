@@ -57,6 +57,15 @@ module.exports = function (parentRouter) {
             });
         })
 
+        .get('/remove_key', function (request, response) {
+            var params = [
+                request.query.user_id,
+                request.query.key_name
+            ];
+
+            db.fetchItemAndReturn('remove_key', params, response);
+        })
+
         .get('/get_keys', function (request, response) {
             var params = [
                 request.query.id
