@@ -23,7 +23,7 @@ module.exports = function (parentRouter) {
             var params = [
                 request.query.id
             ];
-            db.fetchItemAndReturn('list_keys', params, response);
+            db.fetchListAndReturn('list_keys', params, response);
         })
 
         .post('/create_key', function (request, response) {
