@@ -26,6 +26,15 @@ module.exports = function (parentRouter) {
             db.fetchItemAndReturn('list_keys', params, response);
         })
 
+        .post('/create_key', function (request, response) {
+            var body = request.body;
+            var params = [
+                body['user_id'],
+                body['key']
+            ];
+            db.fetchItemAndReturn('new_key', params, response);
+        })
+
         .post('/create_user', function (request, response) {
             var body = request.body;
             cryptops.returnHash(body['password'], function (res) {
