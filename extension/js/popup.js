@@ -2,7 +2,7 @@ const PASSPHRASE = "mlhphrime2017@teamalpha";
 
 // Adding event listeners to listen to key presses on gen new key and fetch key
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById("genNewKey").addEventListener('click', generateNewKey);
+    document.getElementById("genNewKey").addEventListener('click', updateCurrentUser);
     document.getElementById("fetchKey").addEventListener('click', fetchKey);
 });
 
@@ -14,10 +14,10 @@ let key = {
 };
 
 let user = {
-    id: -1,
-    full_name: "",
-    email: "",
-    phone_number: "",
+    id: 1,
+    full_name: "Argha",
+    email: "argha.sarkar1994@gmail.com",
+    phone_number: "+447554164303",
     keys: []
 };
 
@@ -27,6 +27,16 @@ let user = {
 function updateCurrentUser() {
     "use strict";
 
+    generateNewKey().then((key) => {
+        console.log(user);
+    });
+
+    /*chrome.runtime.sendMessage({updateUser: user},function(response){
+
+    });
+    chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
+        let str = JSON.stringify(message.data);
+    });*/
 }
 
 function generateNewKey() {
@@ -34,16 +44,18 @@ function generateNewKey() {
     console.log("Gen new key");
 
     let options = {
-        userIds: [{ name:'Jon Smith', email:'jon@example.com' }], // multiple user IDs
+        userIds: [{ name: user.full_name, email: user.email }], // multiple user IDs
         numBits: 2048,                                            // RSA key size
         passphrase: PASSPHRASE       // protects the private key
     };
 
-     return openpgp.generateKey(options).then(function(key) {
+    return openpgp.generateKey(options).then(function(key) {
 
         let generatedKey = [];
         generatedKey.private_key = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
         generatedKey.public_key = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+
+        user.keys.push(generatedKey);
 
         return generatedKey;
     });
