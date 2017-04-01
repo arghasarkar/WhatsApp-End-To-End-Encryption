@@ -12,7 +12,6 @@ module.exports = function (parentRouter) {
                     request.query.email,
                     res
                 ];
-
                 db.fetchItem('get_user_id', params, function (databasereturned) {
                     response.json(databasereturned);
                 });
@@ -84,7 +83,6 @@ module.exports = function (parentRouter) {
                     body['full_name'],
                     body['mobile_phone']
                 ];
-
                 db.fetchItemAndReturn('new_user', params, response);
             });
         });
