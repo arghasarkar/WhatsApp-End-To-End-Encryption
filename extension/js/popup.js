@@ -6,23 +6,46 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("fetchKey").addEventListener('click', fetchKey);
 });
 
+let key = {
+    id: -1,
+    name: "",
+    private_key: "",
+    public_key: ""
+};
+
+let user = {
+    id: -1,
+    full_name: "",
+    email: "",
+    phone_number: "",
+    keys: []
+};
+
+/**
+ * Stores the user details to localstorage
+ */
+function updateCurrentUser() {
+    "use strict";
+
+}
 
 function generateNewKey() {
     "use strict";
     console.log("Gen new key");
 
-    var options = {
+    let options = {
         userIds: [{ name:'Jon Smith', email:'jon@example.com' }], // multiple user IDs
-        numBits: 4096,                                            // RSA key size
+        numBits: 2048,                                            // RSA key size
         passphrase: PASSPHRASE       // protects the private key
     };
 
-    openpgp.generateKey(options).then(function(key) {
-        var privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
-        var pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+     return openpgp.generateKey(options).then(function(key) {
 
-        console.log(privkey);
-        console.log(pubkey);
+        let generatedKey = [];
+        generatedKey.private_key = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
+        generatedKey.public_key = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+
+        return generatedKey;
     });
 }
 
@@ -32,10 +55,7 @@ function fetchKey() {
     alert("Fetch Key");
 }
 
-let key = {
-    name: "",
-    key: "",
-};
+
 
 if (typeof(Storage) !== "undefined") {
 
