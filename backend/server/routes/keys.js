@@ -45,6 +45,19 @@ module.exports = function (parentRouter) {
             });
         })
 
+        .get('/get_key_by_name', function (request, response) {
+            var params = [
+                request.query.full_name
+            ];
+
+            db.fetchItem('get_user_id_by_name', params, function (databasereturned) {
+                var params = [
+                    databasereturned.get_user_id_by_name
+                ];
+                db.fetchListAndReturn('list_keys', params, response);
+            });
+        })
+
         .get('/get_keys', function (request, response) {
             var params = [
                 request.query.id
