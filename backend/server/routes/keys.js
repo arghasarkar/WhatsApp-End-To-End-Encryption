@@ -19,6 +19,13 @@ module.exports = function (parentRouter) {
             });
         })
 
+        .get('/get_keys', function (request, response) {
+            var params = [
+                request.query.id
+            ];
+            db.fetchItemAndReturn('list_keys', params, response);
+        })
+
         .post('/create_user', function (request, response) {
             var body = request.body;
             cryptops.returnHash(body['password'], function (res) {
