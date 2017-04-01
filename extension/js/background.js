@@ -7,3 +7,8 @@ chrome.runtime.onMessage.addListener(
         }
     }
 );
+
+/**
+ * TODO:: 1) Implement message passing interface to receive message from popup.js.
+ *        Popup.js will send string version of user. Convert it to JSON and store it in Local storage.
+ */

@@ -29,6 +29,12 @@ function updateCurrentUser() {
 
     generateNewKey().then((key) => {
         console.log(user);
+
+        /**
+         * TODO
+         * 1) Send a message to background.js
+         * 2) Storage the user in localstorage
+         */
     });
 
     /*chrome.runtime.sendMessage({updateUser: user},function(response){
