@@ -361,7 +361,9 @@ document.addEventListener("click", function(){
 
     for (var i = 0; i < messageHolderElements.length; i++) {
         var line = document.getElementsByClassName("message-text")[i].children[0].innerText;
-        var name = line.split("]")[1];
+        var name = line.split("]");
+        name = name;
+        console.log(name);
         var res = name.split(":")[0];
         names.push(res);
         messages.push(document.getElementsByClassName("message-text")[i].children[1].innerText);
@@ -411,8 +413,10 @@ document.addEventListener("click", function(){
 });
 
 
+function decryptAndInsertMessageNatalya(options, valueOfK) {
+    "use strict";
 
-
+}
 
 function decryptAndInsertMessageArgha(options, valueOfK) {
     "use strict";
