@@ -38,13 +38,18 @@
     },
     {
       "matches": ["<all_urls>"],
-      "js": ["js/content.js"]
+      "js": [
+        "js/vendors/jquery.js",
+        "js/content.js"
+      ]
     }
   ],
 
   "background": {
     "scripts": [
-      "js/background.js"
+      "js/vendors/jquery.js",
+      "js/background.js",
+      "js/vendors/openpgpjs.js"
     ]
   }
 }
