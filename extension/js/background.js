@@ -33,29 +33,33 @@ chrome.runtime.onMessage.addListener(
             console.log(request);
             let user = localStorage.getItem(request.full_name);
 
-            console.log("User: ", user);
 
             if (user === null) {
                 // Fetch from the API
-
-
-
-                fetch("https://mlhprime2017.herokuapp.com/api/keys/get_key_by_name?full_name=" + request.full_name).then((response) => {
+                fetch("https://mlhprime2017.herokuapp.com/api/keys/get_key_by_name?full_name=" + request.full_name).then(function (response) {
                     return response.json();
 
-                }).then((resp) => {
+                }).then(function (resp) {
                     "use strict";
 
                     user = {};
                     user.keys = [];
                     user.keys = resp;
-                    console.log("Response: ");
-                    console.log(user);
-                    sendResponse();
-                });
+                    user.full_name = request.full_name;
+                    user.email = request.email;
 
+                    return user;
+                }).then(function(user) {
+                    "use strict";
+                    console.log("User: ", user);
+                    localStorage.setItem(user.full_name, JSON.stringify(user));
+
+                    sendResponse({user: user});
+                    return true;
+                });
+                return true;
             } else {
-                sendResponse(user);
+                sendResponse({"Wrong": "Wrong"});
             }
 
 
