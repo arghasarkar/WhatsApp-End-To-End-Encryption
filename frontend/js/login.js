@@ -33,7 +33,13 @@ function loginChecker() {
     fetch(url, request).then(function (res) {
         return res.json();
     }).then(function (json) {
-        console.log(json);
+        var logged = json.get_user_id;
+        if (logged == null) {
+            alert("Wrong email or password");
+            return false;
+        }
+        alert("User id: " + logged);
+        return true;
     });
 }
 
@@ -60,22 +66,22 @@ function loginChecker() {
  * then move to index.html, else show alert
  */
 // $(document).ready(function () {
-    $('#server-call').on('click', function() {
-
-        // $.post('../../backend/server/routes/keys.js', {
-        //     'email': $('#inputEmail').val(),
-        //     'password': $('#inputPassword').val()
-        // }, function (data) {
-        //
-            if (request == null) {
-                alert("Error: wrong email or password");
-            } else {
-                //Go to Page C if Page B was successful
-                window.location.href = "index.html";
-            }
-        // });
-        return false;
-    // })
-});
+//    $('#server-call').on('click', function() {
+//
+//         $.post('../../backend/server/routes/keys.js', {
+//             'email': $('#inputEmail').val(),
+//             'password': $('#inputPassword').val()
+//         }, function (data) {
+//
+//            if (request == null) {
+//                alert("Error: wrong email or password");
+//            } else {
+//                 Go to Page C if Page B was successful
+//                window.location.href = "index.html";
+//            }
+//         });
+//        return false;
+//     })
+// });
 
 
