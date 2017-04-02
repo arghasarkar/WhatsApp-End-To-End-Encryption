@@ -39,7 +39,7 @@ document.addEventListener("click", function(){
 
         if (messages[k].includes(PGP_MESSAGE_START)) {
             // Need to decrypt this;
-            console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
+            //console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
 
             let IliasPublicKey = `
                
@@ -230,12 +230,16 @@ MbX8nuliwZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
 
             `;
 
+            if (names[k].includes("Argha Sarkar")) {
+                console.log("Argha is sending")
+            } else if (names[k].includes("Ilias")) {
+                console.log("Ilias is sending");
+            } else if (names[k].includes("Xavier")) {
+                console.log("Xavier is sending");
+            }
+
             // Decrypt here
             var privKeyObj = openpgp.key.readArmored(ArghaPrivateKey).keys[0];
-            //privKeyObj.decrypt("");
-
-            //console.log(openpgp.key.readArmored(ArghaPrivateKey));
-
             privKeyObj.decrypt("");
 
             let options = {
@@ -243,39 +247,27 @@ MbX8nuliwZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
                 privateKey: privKeyObj // for decryption
             };
 
-            devAndInsertMessage(options, k);
+            decryptAndInsertMessageArgha(options, k);
 
 
 
         } else {
-            console.log("Unenc: ", "(", names[k], ") ", messages[k]);
+            //console.log("Unenc: ", "(", names[k], ") ", messages[k]);
         }
 
-        let options = {
-            userIds: [{ name: names[k] }], // multiple user IDs
-            numBits: 512,                                            // RSA key size
-            passphrase: "abcd"       // protects the private key
-        };
-
-        openpgp.generateKey(options).then(function(key) {
-
-            let generatedKey = [];
-            generatedKey.private_key = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
-            generatedKey.public_key = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
-        });
 
     }
 
 });
 
-function devAndInsertMessage(options, valueOfK) {
+
+
+function decryptAndInsertMessageArgha(options, valueOfK) {
     "use strict";
     openpgp.decrypt(options).then(function(plaintext) {
-
-        console.log(plaintext);
-
         document.getElementsByClassName("message-text")[valueOfK].children[1].innerText = plaintext.data;
 
         return plaintext.data; // 'Hello, World!'
     });
 }
+
