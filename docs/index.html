@@ -1,149 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/login.css">
 
-    <title>Speak Securely</title>
-
-    <style>
-        .modal-header, h4, .close {
-            background-color: #5cb85c;
-            color:white !important;
-            text-align: center;
-            font-size: 30px;
-        }
-        .modal-footer {
-            background-color: #f9f9f9;
-        }
-    </style>
+    <title>Log In</title>
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
-    </script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-
-    <!-- Latest compiled and minified Locales -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
     <script src="js/common.js"></script>
-    <script src="js/table_fill.js"></script>
-    <script src="js/modals.js"></script>
+    <script src="js/login.js"></script>
 </head>
-
 <body>
-    <div class="container theme-showcase" role="main">
-
-        <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <h1>Speak Securely</h1>
-            <p>Speak Securely provide the additional encription to your messenger. Ensure that your communication is secure.</p>
-        </div>
-
-        <div class="page-header">
-            <h1>Keys</h1>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <table id="table"></table>
-            </div>
-        </div>
-
-        <p></p>
-        <div class="row">
-            <div class="col-md-12">
-                <button id="insert" type="button" class="btn btn-primary">Add new key</button>
-                &nbsp&nbsp&nbsp&nbsp&nbsp
-                <button id="remove" type="button" class="btn btn-danger">Remove key</button>
-            </div>
-        </div>
-
-        <!--<div class="page-header">-->
-            <!--<h1>Alerts</h1>-->
-        <!--</div>-->
-        <!--<div class="alert alert-success" role="alert">-->
-            <!--<strong>Well done!</strong> You successfully read this important alert message.-->
-        <!--</div>-->
-        <!--<div class="alert alert-info" role="alert">-->
-            <!--<strong>Heads up!</strong> This alert needs your attention, but it's not super important.-->
-        <!--</div>-->
-        <!--<div class="alert alert-warning" role="alert">-->
-            <!--<strong>Warning!</strong> Best check yo self, you're not looking too good.-->
-        <!--</div>-->
-        <!--<div class="alert alert-danger" role="alert">-->
-            <!--<strong>Oh snap!</strong> Change a few things up and try submitting again.-->
-        <!--</div>-->
-    </div>
-
     <div class="container">
-        <!-- Modal -->
-        <div class="modal fade" id="myInsertModal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header" style="padding:35px 50px;">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4><span class="glyphicon glyphicon-lock"></span> Add key</h4>
-                    </div>
-                    <div class="modal-body" style="padding:40px 50px;">
-                        <form role="form" name="add-key-form" onsubmit="addKeys(); return false;">
-                            <div class="form-group">
-                                <label for="key_name"><span class="glyphicon glyphicon-user"></span> Key Name</label>
-                                <input type="text" class="form-control" id="key_name" placeholder="Enter key name">
-                            </div>
-                            <div class="form-group">
-                                <label for="key"><span class="glyphicon glyphicon-eye-open"></span> Key</label>
-                                <input type="text" class="form-control" id="key" placeholder="Enter key">
-                            </div>
-                            <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Confirm</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    </div>
-                </div>
-            </div>
+        <div class="jumbotron jumbo-text" style="text-align: center">
+            <h2>Speak Securely</h2>
+
+            <p>Speak Securely provide the additional encryption to your messenger. Ensure that your communication is secure.</p>
         </div>
+        <form class="form-signin" name="my-login-form" onsubmit="loginChecker(); return false">
+            <h2 class="form-signin-heading">Please log in</h2>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <input class="btn btn-lg btn-primary btn-block" type="submit" id="server-call" >
+        </form>
     </div>
 
-
-
-
-    <div class="container">
-        <!-- Modal -->
-        <div class="modal fade" id="myRemoveModal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header" style="padding:35px 50px;background-color: #b8181c;">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 style="background-color: #b8181c;"><span class="glyphicon glyphicon-lock"></span> Add key</h4>
-                    </div>
-                    <div class="modal-body" style="padding:40px 50px;">
-                        <form role="form" name="remove-key-form" onsubmit="removeKeys(); return false;">
-                            <div class="form-group">
-                                <label for="key_name_remove"><span class="glyphicon glyphicon-user"></span> Key Name</label>
-                                <select class="form-control" id="key_name_remove">
-                                    <option></option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Confirm</button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
+
+
 </html>

@@ -33,7 +33,7 @@ function loginChecker() {
         setCookie("email", document.getElementById("inputEmail").value, 365);
         setCookie("password", document.getElementById("inputPassword").value, 365);
         setCookie("id", logged, 365);
-        window.location.href = 'index.html';
+        window.location.href = '../userpage.html';
         return true;
     });
 }
