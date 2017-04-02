@@ -1,5 +1,99 @@
 const PGP_MESSAGE_START = "-----BEGIN PGP MESSAGE-----";
 
+let NatalyaPublicKey = `
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: GPGTools - https://gpgtools.org
+
+mQENBFjgzb4BCACsyue/3rUumDLEmIGfROunpaT/b2AFraJOWjQmesru9tYS0m+D
+YTF1EXgU3V1s6gPkv1sZ7ohL5PIORdfEbxThbdXmTMLz9ORy5K5GGcJLparlu86k
+WF28oEVdStccqvhyiJR06QDiYttMKeQZX8KWWSGeWd2dkQtji9peSF2j5mkKM9nW
+zYq9m/gLb3gOryH42Aq9QuttYfk4yid//PVuXC6vXYbmcw9L0OLq0RGOwReQ0XuA
+AqE7o/IwArYvznINT82RjKVM/7Oern4Z3j1Aion+6s+4fX3ScoPX3XjfarupoIgN
+TgklSuKK01dEI7d3rJj0CmUKKj9JY+J9E5QPABEBAAG0JU5hdGFseWEgS2ltIDxu
+YXRhbHlha2ltQG1saHByaW1lLmNvbT6JAT0EEwEKACcFAljgzb4CGwMFCQeGH4AF
+CwkIBwMFFQoJCAsFFgIDAQACHgECF4AACgkQqm2t45C5b9wqgQf/UDO6P/cTKwyx
+7qa/cMlgJ7rc9CKLL5eEto5ykCbQtKQU6KEGg+ufz7U5nKEDyEh7t/WCK2FeJpRC
+YqbueqRLtGY440fufj2feVO32CYU9SO2ayhQQqP+X9zlQbk1ndfq6ISYykcXOk4L
+ldXjc94FbcKSH9USPPXFm2gWEFNKWC1l4IrUQthyXnsJ+UC97R1mMi9K0LBBGOQV
+DdMwPjy1pOvIZv/fNivIb/Y6GfrZ13NH+0WPFHGAhPXR5Qgj0PlSa5cOghwe+n+f
+q7R9R7zslIg8P1NFranNFHpgLgUvDwT5FuUvLz1hXRVo/bojzvFUvz+GipWCbEEF
+/R4wiqhf1LkBDQRY4M2+AQgApE/bDwy2C1Ld+MLKExGgq2ei3QxPkOLdAHzrWz9v
+c+71rNv9G0GeITDkDKV08LU6ycuk8T9YDWhecoXYNArQ6PyVbUCl3/L2ZdgctRxR
+Y37Xk8Pv6vQyZcZXMEFsPw8+GXwk04ge5TuUBcHR8PQ6RPwmg/DdqAw8CXti/6JK
+bTUux6h5DJIjNryUa2ImybE7rSdjlEOoBgh1PNIqBZMbZL3yg4iyJFYNdJwbUbnD
+Thf8QlpItvvUha9En6EcRNUCvW9cPkYM6FLH3baKQkrktUQmofrrZZ91BfGlWYyo
+XYCkdrvjQmRpNHL8Bl1DYJT7PxkuaF8958ZCztJR4TbJlQARAQABiQElBBgBCgAP
+BQJY4M2+AhsMBQkHhh+AAAoJEKptreOQuW/cPcMH/1OagSG8bbAUb8tsqijQTHzN
+/z1SZm9n9qgODZ5M0t3N68BtQZoXfmaKya7w7qG13CGkjjxXfjGJ3Qyn1hbD1tQs
+PgK1nIUPVX+2zNuSe7YQJmsnwa2Vyigai6cXvack1FQaYihQJTbk4A02Wq5MMO7B
+jTmP98RvHjkUUH7HNp4T9n/YiGWQrdaUNDumiBrNiODYhXZFyM0e70c6Hrfth7fP
+WSEJ6NJF95n8leU+Q9DvqFCrVN2SgjtaUnPJobSwRD05QdFa+Dmo/J00s5zssg8f
+e89uroNB6hrN5HdnwyZ+adVPkmwmxjjxGn1Rs05y5y+zAsfyLwPWlcY0yThGit0=
+=gugg
+-----END PGP PUBLIC KEY BLOCK-----
+`;
+
+let NatalyaPrivateKey = `
+-----BEGIN PGP PRIVATE KEY BLOCK-----
+Comment: GPGTools - https://gpgtools.org
+
+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
+yThGit0=
+=N0wj
+-----END PGP PRIVATE KEY BLOCK-----
+`;
+
 let IliasPublicKey = `
                
                -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -197,16 +291,12 @@ document.addEventListener("click", function(){
 
     // Listener for sending messages
     document.getElementsByClassName("input")[1].addEventListener("keydown", function(event) {
-        var message = document.getElementsByClassName("input")[1].innerText;
-
-        // Get the recipient of the message.
-        let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
         console.log(event.keyCode);
-
-
         if (event.keyCode == 17) {
+            var message = document.getElementsByClassName("input")[1].innerText;
 
-
+            // Get the recipient of the message.
+            let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
 
 
             if (recipient.includes("Ilias")) {
@@ -227,16 +317,38 @@ document.addEventListener("click", function(){
             } else if (recipient.includes("Argha")) {
                 console.log(recipient + " is receiving: " + message);
 
+                // Use Argha's public key
+                console.log(recipient + " is receiving: " + message);
+
+                // Use ilias's public key
+
                 let options = {
                     data: message,                             // input as String (or Uint8Array)
-                    publicKeys: openpgp.key.readArmored(IliasPublicKey).keys,  // for encryption
+                    publicKeys: openpgp.key.readArmored(ArghaPublicKey).keys,  // for encryption
                 };
 
-                // Use Argha's public key
                 openpgp.encrypt(options).then(function(ciphertext) {
                     let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
                     document.getElementsByClassName("input")[1].innerText = encrypted;
                 });
+
+            } else if (recipient.includes("Natalya")) {
+
+                // Use natalya's keys
+                console.log(recipient + " is receiving: " + message);
+
+                // Use ilias's public key
+
+                let options = {
+                    data: message,                             // input as String (or Uint8Array)
+                    publicKeys: openpgp.key.readArmored(NatalyaPublicKey).keys,  // for encryption
+                };
+
+                openpgp.encrypt(options).then(function(ciphertext) {
+                    let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+                    document.getElementsByClassName("input")[1].innerText = encrypted;
+                });
+
             }
         }
     });
