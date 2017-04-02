@@ -14,7 +14,31 @@ const PGP_MESSAGE_START = "-----BEGIN PGP MESSAGE-----";
 //     console.log("on click");
 // })
 let x = 0;
+
+
+
 document.addEventListener("click", function(){
+
+    // Listener for sending messages
+    document.getElementsByClassName("input")[1].addEventListener("keydown", function(event) {
+        console.log(event.keyCode);
+        if (event.keyCode == 17) {
+            var x = document.getElementsByClassName("input")[1].innerText;
+
+            // Get the recipient of the message.
+            let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
+
+
+            if (recipient.includes("Ilias")) {
+                console.log(recipient + " is receiving: " + x);
+
+                // Use ilias's public key
+
+            } else if (recipient.includes("Argha")) {
+                console.log(recipient + " is receiving: " + x);
+            }
+        }
+    });
 
     // Run rest of the code in here
 
@@ -259,6 +283,8 @@ MbX8nuliwZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
     }
 
 });
+
+
 
 
 
