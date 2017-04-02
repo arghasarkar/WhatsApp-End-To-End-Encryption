@@ -362,7 +362,7 @@ document.addEventListener("click", function(){
     for (var i = 0; i < messageHolderElements.length; i++) {
         var line = document.getElementsByClassName("message-text")[i].children[0].innerText;
         var name = line.split("]");
-        name = name;
+        name = name[1];
         console.log(name);
         var res = name.split(":")[0];
         names.push(res);
