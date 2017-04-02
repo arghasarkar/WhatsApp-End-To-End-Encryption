@@ -36,7 +36,7 @@
 
     <script src="js/common.js"></script>
     <script src="js/table_fill.js"></script>
-
+    <script src="js/modals.js"></script>
 </head>
 
 <body>
@@ -94,7 +94,7 @@
                         <h4><span class="glyphicon glyphicon-lock"></span> Add key</h4>
                     </div>
                     <div class="modal-body" style="padding:40px 50px;">
-                        <form role="form">
+                        <form role="form" name="add-key-form" onsubmit="addKeys(); return false;">
                             <div class="form-group">
                                 <label for="key_name"><span class="glyphicon glyphicon-user"></span> Key Name</label>
                                 <input type="text" class="form-control" id="key_name" placeholder="Enter key name">
@@ -128,10 +128,12 @@
                         <h4 style="background-color: #b8181c;"><span class="glyphicon glyphicon-lock"></span> Add key</h4>
                     </div>
                     <div class="modal-body" style="padding:40px 50px;">
-                        <form role="form">
+                        <form role="form" name="remove-key-form" onsubmit="removeKeys(); return false;">
                             <div class="form-group">
                                 <label for="key_name_remove"><span class="glyphicon glyphicon-user"></span> Key Name</label>
-                                <input type="text" class="form-control" id="key_name_remove" placeholder="Enter key name">
+                                <select class="form-control" id="key_name_remove">
+                                    <option></option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Confirm</button>
                         </form>

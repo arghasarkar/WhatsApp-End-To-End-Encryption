@@ -1,6 +1,5 @@
 var table = $('#table').bootstrapTable({
-    onLoadSucces: fillTable(),
-    clickToSelect: true
+    onLoadSucces: fillTable()
 });
 
 $(document).ready(function () {
@@ -9,6 +8,12 @@ $(document).ready(function () {
     });
     $("#remove").click(function(){
         $('#myRemoveModal').modal('show');
+        $('#key_name_remove').attr('enabled', 'true');
+        $.each(key_list, function() {
+            $('#key_name_remove').append(
+                $("<option></option>").text(this.key_name).val(this.id)
+            );
+        });
     });
 });
 

@@ -15,11 +15,12 @@ BEGIN
   IF exists(SELECT 1
             FROM keys_collection
             WHERE user_id = p_user_id AND key_name = p_key_name) THEN
-    RETURN -1;
+    UPDATE keys_collection SET key = p_key WHERE user_id = p_user_id AND key_name = p_key_name;
   ELSE
     INSERT INTO keys_collection (key, user_id, key_name) VALUES (p_key, p_user_id, p_key_name);
-    RETURN 0;
   END IF;
+
+  RETURN 1;
 
 END;
 $$ LANGUAGE plpgsql;
