@@ -28,15 +28,24 @@ function updateCurrentUser() {
     "use strict";
 
     generateNewKey().then((key) => {
-        console.log(user);
+
+        /**
+         * TODO
+         * 1) Send user details to background.js
+         */
+        chrome.runtime.sendMessage({updateUser: user},function(response){
+            console.log(user);
+            let userJsonStr = JSON.stringify(user);
+
+            console.log(response);
+
+        });
     });
 
-    /*chrome.runtime.sendMessage({updateUser: user},function(response){
 
-    });
-    chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
-        let str = JSON.stringify(message.data);
-    });*/
+    // chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
+    //     let str = JSON.stringify(message.data);
+    // });
 }
 
 function generateNewKey() {
@@ -64,7 +73,19 @@ function generateNewKey() {
 function fetchKey() {
     "use strict";
     console.log("Fetch an existing key");
-    alert("Fetch Key");
+
+    chrome.runtime.sendMessage(
+        {
+            fetchUser: true,
+            full_name: "Xavier Perarnau",
+            email: "argha.sarkar1994@gmail.com"
+        },
+        function(response) {
+            console.log(response);
+            console.log(response);
+        }
+    );
+
 }
 
 
