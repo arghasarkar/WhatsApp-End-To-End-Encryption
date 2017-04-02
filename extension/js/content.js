@@ -1,71 +1,6 @@
 const PGP_MESSAGE_START = "-----BEGIN PGP MESSAGE-----";
-//
-// $(".infinite-list-item infinite-list-item-transition").click(function() {
-//     "use strict";
-//    console.log("New chat clicked");
-// });
-//
-// $(".chat").click(function() {
-//     "use strict";
-//     console.log("New chat clicked - chat");
-// });
-// $("body").on("click", ".infinite-list-item infinite-list-item-transition", function() {
-//     "use strict";
-//     console.log("on click");
-// })
-let x = 0;
 
-
-
-document.addEventListener("click", function(){
-
-    // Listener for sending messages
-    document.getElementsByClassName("input")[1].addEventListener("keydown", function(event) {
-        console.log(event.keyCode);
-        if (event.keyCode == 17) {
-            var x = document.getElementsByClassName("input")[1].innerText;
-
-            // Get the recipient of the message.
-            let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
-
-
-            if (recipient.includes("Ilias")) {
-                console.log(recipient + " is receiving: " + x);
-
-                // Use ilias's public key
-
-            } else if (recipient.includes("Argha")) {
-                console.log(recipient + " is receiving: " + x);
-            }
-        }
-    });
-
-    // Run rest of the code in here
-
-    var messageHolderElements = document.getElementsByClassName("message-text");
-    var messages = [];
-    var names = [];
-
-    for (var i = 0; i < messageHolderElements.length; i++) {
-        var line = document.getElementsByClassName("message-text")[i].children[0].innerText;
-        var name = line.split("]")[1];
-        var res = name.split(":")[0];
-        names.push(res);
-        messages.push(document.getElementsByClassName("message-text")[i].children[1].innerText);
-    }
-
-    /**
-     * TODO: Send encrypted messages to background.js to be decryted. Then replace the existing message by the decrypted version.
-     */
-    for (var k = 0; k < messages.length; k++ ) {
-        /*console.log("Sender: ", names[k]);
-         */
-
-        if (messages[k].includes(PGP_MESSAGE_START)) {
-            // Need to decrypt this;
-            //console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
-
-            let IliasPublicKey = `
+let IliasPublicKey = `
                
                -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v2
@@ -100,7 +35,7 @@ x3pDXWs7AMCOenFE+wUQ3Hm43PjF2SmhyOcKDTZndvJ9FwJ7bQ==
             
             `;
 
-            let IliasPrivateKey = `
+let IliasPrivateKey = `
             -----BEGIN PGP PRIVATE KEY BLOCK-----
 Version: GnuPG v2
 
@@ -160,7 +95,7 @@ aDxDeGqAx3pDXWs7AMCOenFE+wUQ3Hm43PjF2SmhyOcKDTZndvJ9FwJ7bQ==
 -----END PGP PRIVATE KEY BLOCK-----
 `;
 
-            let ArghaPublicKey = `
+let ArghaPublicKey = `
             -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v2
 
@@ -193,7 +128,7 @@ wZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
 -----END PGP PUBLIC KEY BLOCK-----
             `;
 
-            let ArghaPrivateKey = `
+let ArghaPrivateKey = `
 -----BEGIN PGP PRIVATE KEY BLOCK-----
 Version: GnuPG v2
 
@@ -253,6 +188,85 @@ MbX8nuliwZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
 -----END PGP PRIVATE KEY BLOCK-----
 
             `;
+
+let x = 0;
+
+
+
+document.addEventListener("click", function(){
+
+    // Listener for sending messages
+    document.getElementsByClassName("input")[1].addEventListener("keydown", function(event) {
+        var message = document.getElementsByClassName("input")[1].innerText;
+
+        // Get the recipient of the message.
+        let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
+        console.log(event.keyCode);
+
+
+        if (event.keyCode == 17) {
+
+
+
+
+            if (recipient.includes("Ilias")) {
+                console.log(recipient + " is receiving: " + message);
+
+                // Use ilias's public key
+
+                let options = {
+                    data: message,                             // input as String (or Uint8Array)
+                    publicKeys: openpgp.key.readArmored(IliasPublicKey).keys,  // for encryption
+                };
+
+                openpgp.encrypt(options).then(function(ciphertext) {
+                    let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+                    document.getElementsByClassName("input")[1].innerText = encrypted;
+                });
+
+            } else if (recipient.includes("Argha")) {
+                console.log(recipient + " is receiving: " + message);
+
+                let options = {
+                    data: message,                             // input as String (or Uint8Array)
+                    publicKeys: openpgp.key.readArmored(IliasPublicKey).keys,  // for encryption
+                };
+
+                // Use Argha's public key
+                openpgp.encrypt(options).then(function(ciphertext) {
+                    let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+                    document.getElementsByClassName("input")[1].innerText = encrypted;
+                });
+            }
+        }
+    });
+
+    // Run rest of the code in here
+
+    var messageHolderElements = document.getElementsByClassName("message-text");
+    var messages = [];
+    var names = [];
+
+    for (var i = 0; i < messageHolderElements.length; i++) {
+        var line = document.getElementsByClassName("message-text")[i].children[0].innerText;
+        var name = line.split("]")[1];
+        var res = name.split(":")[0];
+        names.push(res);
+        messages.push(document.getElementsByClassName("message-text")[i].children[1].innerText);
+    }
+
+    /**
+     * TODO: Send encrypted messages to background.js to be decryted. Then replace the existing message by the decrypted version.
+     */
+    for (var k = 0; k < messages.length; k++ ) {
+        /*console.log("Sender: ", names[k]);
+         */
+
+        if (messages[k].includes(PGP_MESSAGE_START)) {
+            // Need to decrypt this;
+            //console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
+
+
 
             if (names[k].includes("Argha Sarkar")) {
                 console.log("Argha is sending")
