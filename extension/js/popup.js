@@ -29,6 +29,14 @@ function updateCurrentUser() {
 
     generateNewKey().then((key) => {
 
+        console.log(user);
+
+        user.full_name = document.getElementById("name").value;
+        user.email = document.getElementById("email").value;
+        user.phone_number = document.getElementById("mobile_number").value;
+
+        console.log(user);
+
         /**
          * TODO
          * 1) Send user details to background.js
@@ -69,6 +77,8 @@ function generateNewKey() {
         let generatedKey = [];
         generatedKey.private_key = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
         generatedKey.public_key = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+
+        user.keys = [];
 
         user.keys.push(generatedKey);
 

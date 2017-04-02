@@ -20,13 +20,24 @@ chrome.runtime.onMessage.addListener(
 
         if (request.updateUser) {
             let user = request.updateUser;
+     
+            let url = "https://mlhprime2017.herokuapp.com/api/keys/create_user";
 
-            // localStorage.setItem("loggedInUser", JSON.stringify(user));
-            // localStorage.setItem(user.full_name, JSON.stringify(user));
+            fetch(url, {
+                method: 'post',
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                body: "full_name=" + user.full_name + "&email=" + user.email + "&password=mlhprime2017&mobile_phone=" + user.mobile_phone
+            })
+            .then(json)
+            .then(function (data) {
+                console.log('Request succeeded with JSON response', data);
+            })
+            .catch(function (error) {
+                console.log('Request failed', error);
+            });
 
-            let existingUser = localStorage.getItem("loggedInUser");
-            console.log("existing user: ");
-            console.log(existingUser);
         }
 
         if (request.fetchUser) {
@@ -52,7 +63,7 @@ chrome.runtime.onMessage.addListener(
                 }).then(function(user) {
                     "use strict";
                     console.log("User: ", user);
-                    //localStorage.setItem(user.full_name, JSON.stringify(user));
+                    localStorage.setItem(user.full_name, JSON.stringify(user));
 
                     sendResponse({user: user});
                     return true;
