@@ -74,7 +74,7 @@ module.exports = function (parentRouter) {
 
             db.fetchItem('get_user_object', params, function (userObject) {
                 db.fetchList('list_keys', params, function (keyList) {
-                    var jsonObject = userObject.get_user_object;
+                    userObject.key_list = keyList;
                     response.json(userObject);
                 });
             });
