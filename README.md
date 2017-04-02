@@ -1,2 +1,2 @@
 # MLHPrime
-Github repository for TeamAlpha
+Github repository for TeamAlpha.
