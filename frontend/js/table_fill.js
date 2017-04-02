@@ -1,6 +1,23 @@
-  var table = $('#table').bootstrapTable({
-     onLoadSucces: fillTable()
- });
+var table = $('#table').bootstrapTable({
+    onLoadSucces: fillTable()
+});
+
+$(document).ready(function () {
+    $("#insert").click(function(){
+        $('#myInsertModal').modal('show');
+    });
+    $("#remove").click(function(){
+        $('#myRemoveModal').modal('show');
+        $('#key_name_remove').attr('enabled', 'true');
+        $.each(key_list, function() {
+            $('#key_name_remove').append(
+                $("<option></option>").text(this.key_name).val(this.id)
+            );
+        });
+    });
+});
+
+var key_list;
 
 function fillTable() {
     var url = root_url + 'get_keys?id=' + getCookie("id");
@@ -15,10 +32,11 @@ function fillTable() {
     fetch(url, request).then(function (res) {
         return res.json();
     }).then(function (json) {
-        console.log(json.keys);
         for(var i = 0; i < json.keys.length; i++) {
             json.keys[i].id = i;
         }
+
+        key_list = json.keys;
 
         $('#table').bootstrapTable({
             columns: [{
