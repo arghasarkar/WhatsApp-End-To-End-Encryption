@@ -28,7 +28,12 @@ module.exports = function (parentRouter) {
                 var params = [
                     databasereturned.get_user_id_by_phone
                 ];
-                db.fetchListAndReturn('list_keys', params, response);
+                db.fetchItem('get_user_object', params, function (userObject) {
+                    db.fetchList('list_keys', params, function (keyList) {
+                        userObject.keys = keyList;
+                        response.json(userObject);
+                    });
+                });
             });
         })
 
@@ -41,7 +46,12 @@ module.exports = function (parentRouter) {
                 var params = [
                     databasereturned.get_user_id_by_mail
                 ];
-                db.fetchListAndReturn('list_keys', params, response);
+                db.fetchItem('get_user_object', params, function (userObject) {
+                    db.fetchList('list_keys', params, function (keyList) {
+                        userObject.keys = keyList;
+                        response.json(userObject);
+                    });
+                });
             });
         })
 
@@ -54,7 +64,12 @@ module.exports = function (parentRouter) {
                 var params = [
                     databasereturned.get_user_id_by_name
                 ];
-                db.fetchListAndReturn('list_keys', params, response);
+                db.fetchItem('get_user_object', params, function (userObject) {
+                    db.fetchList('list_keys', params, function (keyList) {
+                        userObject.keys = keyList;
+                        response.json(userObject);
+                    });
+                });
             });
         })
 
@@ -71,7 +86,13 @@ module.exports = function (parentRouter) {
             var params = [
                 request.query.id
             ];
-            db.fetchListAndReturn('list_keys', params, response);
+
+            db.fetchItem('get_user_object', params, function (userObject) {
+                db.fetchList('list_keys', params, function (keyList) {
+                    userObject.keys = keyList;
+                    response.json(userObject);
+                });
+            });
         })
 
         .post('/create_key', function (request, response) {
