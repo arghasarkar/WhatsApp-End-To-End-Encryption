@@ -30,7 +30,7 @@ module.exports = function (parentRouter) {
                 ];
                 db.fetchItem('get_user_object', params, function (userObject) {
                     db.fetchList('list_keys', params, function (keyList) {
-                        userObject.key_list = keyList;
+                        userObject.keys = keyList;
                         response.json(userObject);
                     });
                 });
@@ -48,7 +48,7 @@ module.exports = function (parentRouter) {
                 ];
                 db.fetchItem('get_user_object', params, function (userObject) {
                     db.fetchList('list_keys', params, function (keyList) {
-                        userObject.key_list = keyList;
+                        userObject.keys = keyList;
                         response.json(userObject);
                     });
                 });
@@ -66,7 +66,7 @@ module.exports = function (parentRouter) {
                 ];
                 db.fetchItem('get_user_object', params, function (userObject) {
                     db.fetchList('list_keys', params, function (keyList) {
-                        userObject.key_list = keyList;
+                        userObject.keys = keyList;
                         response.json(userObject);
                     });
                 });
@@ -89,7 +89,7 @@ module.exports = function (parentRouter) {
 
             db.fetchItem('get_user_object', params, function (userObject) {
                 db.fetchList('list_keys', params, function (keyList) {
-                    userObject.key_list = keyList;
+                    userObject.keys = keyList;
                     response.json(userObject);
                 });
             });
