@@ -21,8 +21,8 @@ chrome.runtime.onMessage.addListener(
         if (request.updateUser) {
             let user = request.updateUser;
 
-            localStorage.setItem("loggedInUser", JSON.stringify(user));
-            localStorage.setItem(user.full_name, JSON.stringify(user));
+            // localStorage.setItem("loggedInUser", JSON.stringify(user));
+            // localStorage.setItem(user.full_name, JSON.stringify(user));
 
             let existingUser = localStorage.getItem("loggedInUser");
             console.log("existing user: ");
@@ -52,7 +52,7 @@ chrome.runtime.onMessage.addListener(
                 }).then(function(user) {
                     "use strict";
                     console.log("User: ", user);
-                    localStorage.setItem(user.full_name, JSON.stringify(user));
+                    //localStorage.setItem(user.full_name, JSON.stringify(user));
 
                     sendResponse({user: user});
                     return true;
