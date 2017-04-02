@@ -33,11 +33,17 @@ function updateCurrentUser() {
          * TODO
          * 1) Send user details to background.js
          */
-        chrome.runtime.sendMessage({updateUser: user},function(response){
-            console.log(user);
-            let userJsonStr = JSON.stringify(user);
+        chrome.runtime.sendMessage(
+            {
+                updateUser: user,
 
-            console.log(response);
+            },
+            function(response){
+                // console.log(user.keys[0].private_key);
+                // console.log(JSON.stringify(user.keys[0].private_key));
+                //
+
+                console.log(response);
 
         });
     });
@@ -54,7 +60,7 @@ function generateNewKey() {
 
     let options = {
         userIds: [{ name: user.full_name, email: user.email }], // multiple user IDs
-        numBits: 2048,                                            // RSA key size
+        numBits: 512,                                            // RSA key size
         passphrase: PASSPHRASE       // protects the private key
     };
 
@@ -81,8 +87,9 @@ function fetchKey() {
             email: "argha.sarkar1994@gmail.com"
         },
         function(response) {
-            console.log(response);
-            console.log(response);
+            user = response.user;
+
+            console.log(user);
         }
     );
 
