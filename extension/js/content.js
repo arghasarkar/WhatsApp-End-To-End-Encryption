@@ -74,8 +74,9 @@ wZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
             `;
 
             let ArghaPrivateKey = `
-            -----BEGIN PGP PRIVATE KEY BLOCK-----
+-----BEGIN PGP PRIVATE KEY BLOCK-----
 Version: GnuPG v2
+
 lQOYBFjfuR0BCACj+L1zNzZGYHnNX/XpGvWEnY0lYMohBf6dq4zuXC5mTKqt8YdC
 hKxBC1SGQ6qJCVzGD7Rm0edksqFj2aFYK5Al0pi4FLqiPWfyrpvRLvXIDm3PS/nr
 wetS/Ik5ABexiXEYtHEDZ20tGigzmP5pDgJAOVbGG/gdOU3UeXFq977rc3Pmy3PI
@@ -130,9 +131,24 @@ jNdyrX+4neAug6gtX4HxHYdgZGH/pf5Vmjuq9lWtGP5vQgIslT0zRnzC1o12CeIC
 MbX8nuliwZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
 =gNaW
 -----END PGP PRIVATE KEY BLOCK-----
+
             `;
 
             // Decrypt here
+            var privKeyObj = openpgp.key.readArmored(ArghaPrivateKey).keys[0];
+            //privKeyObj.decrypt("");
+
+            //console.log(openpgp.key.readArmored(ArghaPrivateKey));
+
+            privKeyObj.decrypt("");
+
+            let options = {
+                message: openpgp.message.readArmored(messages[k]),     // parse armored message
+                privateKey: privKeyObj // for decryption
+            };
+
+            devAndInsertMessage(options, k);
+
 
 
         } else {
@@ -155,3 +171,15 @@ MbX8nuliwZRuq/shQRYJe0xlN3EH3b+AhWPFmd1+dXz1Ags=
     }
 
 });
+
+function devAndInsertMessage(options, valueOfK) {
+    "use strict";
+    openpgp.decrypt(options).then(function(plaintext) {
+
+        console.log(plaintext);
+
+        document.getElementsByClassName("message-text")[valueOfK].children[1].innerText = plaintext.data;
+
+        return plaintext.data; // 'Hello, World!'
+    });
+}
