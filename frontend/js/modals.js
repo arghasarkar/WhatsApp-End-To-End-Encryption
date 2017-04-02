@@ -36,7 +36,7 @@ function addKeys() {
             alert("Network Error");
             return false;
         }
-        window.location.href = '../userpage.html';
+        window.location.href = 'userpage.html';
         return true;
     });
 }
@@ -62,6 +62,6 @@ function removeKeys() {
             alert("Can't remove");
             return false;
         }
-        window.location.href = '../userpage.html';
+        window.location.href = 'userpage.html';
     });
 }
