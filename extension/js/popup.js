@@ -48,7 +48,6 @@ function updateCurrentUser() {
                 updateUser: user,
             },
             function(response) {
-
                 console.log(response);
             }
         );
