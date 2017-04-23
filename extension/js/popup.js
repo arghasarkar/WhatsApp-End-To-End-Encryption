@@ -1,4 +1,5 @@
 const PASSPHRASE = "mlhphrime2017@teamalpha";
+const KEY_SIZE = 512;
 
 // Adding event listeners to listen to key presses on gen new key and fetch key
 document.addEventListener('DOMContentLoaded', function () {
@@ -18,7 +19,10 @@ let user = {
     full_name: "Argha",
     email: "argha.sarkar1994@gmail.com",
     phone_number: "+447554164303",
-    keys: []
+    keys: {
+        private_key: "",
+        public_key: ""
+    }
 };
 
 /**
@@ -29,13 +33,11 @@ function updateCurrentUser() {
 
     generateNewKey().then((key) => {
 
-        console.log(user);
-
         user.full_name = document.getElementById("name").value;
         user.email = document.getElementById("email").value;
-        user.phone_number = document.getElementById("mobile_number").value;
+        user.phone_number = document.getElementById("mobile_phone").value;
 
-        console.log(user);
+        console.log(JSON.stringify(user));
 
         /**
          * TODO
@@ -44,43 +46,37 @@ function updateCurrentUser() {
         chrome.runtime.sendMessage(
             {
                 updateUser: user,
-
             },
-            function(response){
-                // console.log(user.keys[0].private_key);
-                // console.log(JSON.stringify(user.keys[0].private_key));
-                //
-
+            function(response) {
                 console.log(response);
-
-        });
+            }
+        );
     });
 
-
-    // chrome.runtime.onMessage.addListener(function(message,sender,sendResponse) {
-    //     let str = JSON.stringify(message.data);
-    // });
 }
 
+/**
+ * Generates a new PGP key. Returns a promise .
+ * @returns {Promise}
+ */
 function generateNewKey() {
     "use strict";
     console.log("Gen new key");
 
     let options = {
-        userIds: [{ name: user.full_name, email: user.email }], // multiple user IDs
-        numBits: 512,                                            // RSA key size
-        passphrase: PASSPHRASE       // protects the private key
+        userIds: [{ name: user.full_name, email: user.email }],     // multiple user IDs
+        numBits: KEY_SIZE,                                          // RSA key size
+        passphrase: PASSPHRASE                                      // protects the private key
     };
 
     return openpgp.generateKey(options).then(function(key) {
 
-        let generatedKey = [];
+        let generatedKey = {};
         generatedKey.private_key = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
         generatedKey.public_key = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
 
-        user.keys = [];
-
-        user.keys.push(generatedKey);
+        user.keys = { };
+        user.keys = generatedKey;
 
         return generatedKey;
     });
@@ -93,8 +89,8 @@ function fetchKey() {
     chrome.runtime.sendMessage(
         {
             fetchUser: true,
-            full_name: "Xavier Perarnau",
-            email: "argha.sarkar1994@gmail.com"
+            full_name: document.getElementById("name").value,
+            email: document.getElementById("email").value
         },
         function(response) {
             user = response.user;
