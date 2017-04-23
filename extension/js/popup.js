@@ -89,8 +89,8 @@ function fetchKey() {
     chrome.runtime.sendMessage(
         {
             fetchUser: true,
-            full_name: "Xavier Perarnau",
-            email: "argha.sarkar1994@gmail.com"
+            full_name: document.getElementById("name").value,
+            email: document.getElementById("email").value
         },
         function(response) {
             user = response.user;

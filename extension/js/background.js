@@ -84,7 +84,7 @@ chrome.runtime.onMessage.addListener(
 
         if (request.fetchUser) {
 
-            let user = getLoggedInUser("Example user");
+            let user = getLoggedInUser(request.full_name);
 
             console.log(user);
 
@@ -97,25 +97,34 @@ chrome.runtime.onMessage.addListener(
                 }).then(function (resp) {
                     "use strict";
 
+                    let i = 0;
                     user = {};
-                    user.keys = [];
-                    user.keys = resp;
-                    user.full_name = request.full_name;
-                    user.email = request.email;
+
+                    for (i = 0; i < resp.length; i++) {
+                        if (request.email === resp[i].email) {
+                            user.keys = {};
+                            user.keys.public_key = resp[i].public_key;
+
+                            user.name = resp[i].name;
+                            user.email = resp[i].email;
+                        }
+                    }
 
                     return user;
+
                 }).then(function(user) {
                     "use strict";
                     console.log("User: ", user);
-                    localStorage.setItem(user.full_name, JSON.stringify(user));
+                    // Saves the user to the local storage
+                    localStorage.setItem(user.name, JSON.stringify(user));
 
                     sendResponse({user: user});
                     return true;
                 });
                 return true;
             } else {
-                // TODO: Implement fetching the user from the API by user's name
-                // Fetch from the API
+                // TODO: GET THE USER FROM THE LOCAL STORAGE
+
                 sendResponse({user: user});
             }
 
