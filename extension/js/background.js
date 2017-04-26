@@ -84,6 +84,8 @@ chrome.runtime.onMessage.addListener(
 
         if (request.fetchUser) {
 
+            console.log("Name: ", request.full_name);
+
             let user = getLoggedInUser(request.full_name);
 
             console.log(user);
@@ -101,7 +103,8 @@ chrome.runtime.onMessage.addListener(
                     user = {};
 
                     for (i = 0; i < resp.length; i++) {
-                        if (request.email === resp[i].email) {
+                        // TODO: Remove the name match in the future. just use phone and email
+                        if (request.email === resp[i].email || request.full_name === resp[i].name) {
                             user.keys = {};
                             user.keys.public_key = resp[i].public_key;
 
@@ -109,12 +112,12 @@ chrome.runtime.onMessage.addListener(
                             user.email = resp[i].email;
                         }
                     }
-
+                    console.log("Resp: ", resp);
                     return user;
 
                 }).then(function(user) {
                     "use strict";
-                    console.log("User: ", user);
+
                     // Saves the user to the local storage
                     localStorage.setItem(user.name, JSON.stringify(user));
 
@@ -123,9 +126,8 @@ chrome.runtime.onMessage.addListener(
                 });
                 return true;
             } else {
-                // TODO: GET THE USER FROM THE LOCAL STORAGE
-
-                sendResponse({user: user});
+                // Fetch from local storage
+                sendResponse({user: getLoggedInUser(request.full_name)});
             }
 
 
@@ -133,29 +135,3 @@ chrome.runtime.onMessage.addListener(
 
     }
 );
-
-
-/**
- * TODO:: 2) Implement message passing interface to receive message and sender's name from content.js
- *           Then decrypt it with the appropriate keys and send the message back to content.js.
- *
- */
-/*
-chrome.runtime.onMessage.addListener( function(encrypted, sender, sendResponse){
-  var privKeyObj = key.private_key;
-
-  var options = {
-    message: encrypted,
-    privateKey: privKeyObj
-  };
-
-  openpgp.decrypt(options).then(function(plaintext) {
-    return plaintext.data; 
-  });
-
-  var result = privKeyObj.decrypt(encrypted);
-  chrome.runtime.sendMessage(result);
-});
-*/
-
-

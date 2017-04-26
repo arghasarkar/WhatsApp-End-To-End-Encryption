@@ -1,4 +1,5 @@
 const PGP_MESSAGE_START = "-----BEGIN PGP MESSAGE-----";
+const ENCRYPT_TRIGGER_KEY_CODE = 17;
 
 let NatalyaPublicKey = `
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -292,14 +293,37 @@ document.addEventListener("click", function(){
     // Listener for sending messages
     document.getElementsByClassName("input")[1].addEventListener("keydown", function(event) {
         console.log(event.keyCode);
-        if (event.keyCode == 17) {
+        if (event.keyCode == ENCRYPT_TRIGGER_KEY_CODE) {
+            console.log("encrypt trigger pressed.");
             var message = document.getElementsByClassName("input")[1].innerText;
 
             // Get the recipient of the message.
             let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
 
+            /**
+             * TODO: Replace the block below to check for the user's name in the 'recipient' variable.
+             * 1) Check if that name exists in local storage cache. if its exists, use the public key.
+             * 2) If it doesn't exist, then fetch from the API and use it to encrypt the text.
+             * */
 
-            if (recipient.includes("Ilias")) {
+
+            // TODO Implement the case here to check the cache and fetch
+            console.log(`User is ${recipient}`);
+
+            // Need to get the key from the background script.
+            chrome.runtime.sendMessage(
+                {
+                    fetchUser: true,
+                    full_name: recipient
+                },
+                function(response) {
+                    console.log("Fetching user");
+                    console.log(response);
+                }
+            );
+
+
+          /*  if (recipient.includes("Ilias")) {
                 console.log(recipient + " is receiving: " + message);
 
                 // Use ilias's public key
@@ -332,7 +356,7 @@ document.addEventListener("click", function(){
                     document.getElementsByClassName("input")[1].innerText = encrypted;
                 });
 
-            } else if (recipient.includes("Natalya")) {
+            } else if (recipient.includes("Jamie Webb")) {
 
                 // Use natalya's keys
                 console.log(recipient + " is receiving: " + message);
@@ -348,8 +372,9 @@ document.addEventListener("click", function(){
                     let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
                     document.getElementsByClassName("input")[1].innerText = encrypted;
                 });
+            } else {
 
-            }
+            }*/
         }
     });
 
