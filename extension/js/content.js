@@ -29,6 +29,7 @@ document.addEventListener("click", function(){
                     publicKeys: openpgp.key.readArmored(publicKey).keys,  // for encryption
                 };
 
+                // Encrypting the message with the recipient's public key and send it
                 openpgp.encrypt(options).then(function(ciphertext) {
                     document.getElementsByClassName("input")[1].innerText = ciphertext.data;
                 });
@@ -38,9 +39,6 @@ document.addEventListener("click", function(){
                 console.log("Error in fetching the user: ", err);
             });
 
-            /**
-             * TODO: Use the public key of the recipient to generate the encrypted message.
-             */
 
 
 
@@ -117,44 +115,58 @@ document.addEventListener("click", function(){
 
     /**
      * TODO: Send encrypted messages to background.js to be decryted. Then replace the existing message by the decrypted version.
+     * 1) Fetch the user's private key
      */
-    for (var k = 0; k < messages.length; k++ ) {
-        /*console.log("Sender: ", names[k]);
-         */
+    // Fetching the user's private key
+    let privateKey = fetchLoggedInUser().then(function (user) {
+        return user.keys.private_key;
+    }).then(function (privateKey) {
 
-        if (messages[k].includes(PGP_MESSAGE_START)) {
-            // Need to decrypt this;
-            //console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
+        console.log(privateKey);
+
+        for (var k = 0; k < messages.length; k++ ) {
+            /*console.log("Sender: ", names[k]);
+             */
+
+            // console.log("Message: ", messages[k])
+
+            if (messages[k].includes(PGP_MESSAGE_START)) {
+                // Need to decrypt this;
+                //console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
+
+
+                /**
+                 * TODO
+                 * The messages with 'k' index and encrypted. To Decrypt them, use the user's own private key to decrypt
+                 * them.
+                 * 1) Fetch the user's private key from outside this loop.
+                 * 2) If the message is encrypted, attempt to decrypt it.
+                 */
+
+
+                    // Decrypt here
+                var privKeyObj = openpgp.key.readArmored(privateKey).keys[0];
+                privKeyObj.decrypt("");
+
+                let options = {
+                    message: openpgp.message.readArmored(messages[k]),     // parse armored message
+                    privateKey: privKeyObj // for decryption
+                };
+
+                decryptAndInsertMessageArgha(options, k);
 
 
 
-            if (names[k].includes("Argha Sarkar")) {
-                console.log("Argha is sending")
-            } else if (names[k].includes("Ilias")) {
-                console.log("Ilias is sending");
-            } else if (names[k].includes("Xavier")) {
-                console.log("Xavier is sending");
+            } else {
+                //console.log("Unenc: ", "(", names[k], ") ", messages[k]);
             }
 
-            // Decrypt here
-            var privKeyObj = openpgp.key.readArmored(ArghaPrivateKey).keys[0];
-            privKeyObj.decrypt("");
 
-            let options = {
-                message: openpgp.message.readArmored(messages[k]),     // parse armored message
-                privateKey: privKeyObj // for decryption
-            };
-
-            decryptAndInsertMessageArgha(options, k);
-
-
-
-        } else {
-            //console.log("Unenc: ", "(", names[k], ") ", messages[k]);
         }
 
-
-    }
+    }).catch(function (err) {
+        console.log("Failed to decrypt. Error: ", err);
+    });
 
 });
 
@@ -203,3 +215,29 @@ function decryptAndInsertMessageArgha(options, valueOfK) {
     });
 }
 
+/**
+ * Gets the current logged in user. Promise resolves to user if the user exists. If no user is logged in, the promise is
+ * rejected.
+ *
+ * @returns {Promise | User}
+ */
+function fetchLoggedInUser() {
+    return new Promise(function (resolve, reject) {
+        chrome.runtime.sendMessage(
+            {
+                fetchUser: true,
+            },
+            function(response) {
+                user = response.user;
+
+                console.log(user);
+
+                if (user === undefined) {
+                    reject("No logged in user found.");
+                } else {
+                    resolve(user);
+                }
+            }
+        );
+    });
+}
