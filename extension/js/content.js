@@ -300,81 +300,73 @@ document.addEventListener("click", function(){
             // Get the recipient of the message.
             let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
 
+            fetchUserByName(recipient).then(function (user) {
+                "use strict";
+
+                console.log("The fetched user is: ", user);
+
+            }).catch(function (err) {
+                "use strict";
+                console.log("Error in fetching the user: ", err);
+            });
+
             /**
-             * TODO: Replace the block below to check for the user's name in the 'recipient' variable.
-             * 1) Check if that name exists in local storage cache. if its exists, use the public key.
-             * 2) If it doesn't exist, then fetch from the API and use it to encrypt the text.
-             * */
+             * TODO: Use the public key of the recipient to generate the encrypted message.
+             */
 
 
-            // TODO Implement the case here to check the cache and fetch
-            console.log(`User is ${recipient}`);
+            /*  if (recipient.includes("Ilias")) {
+                  console.log(recipient + " is receiving: " + message);
 
-            // Need to get the key from the background script.
-            chrome.runtime.sendMessage(
-                {
-                    fetchUser: true,
-                    full_name: recipient
-                },
-                function(response) {
-                    console.log("Fetching user");
-                    console.log(response);
-                }
-            );
+                  // Use ilias's public key
 
+                  let options = {
+                      data: message,                             // input as String (or Uint8Array)
+                      publicKeys: openpgp.key.readArmored(IliasPublicKey).keys,  // for encryption
+                  };
 
-          /*  if (recipient.includes("Ilias")) {
-                console.log(recipient + " is receiving: " + message);
+                  openpgp.encrypt(options).then(function(ciphertext) {
+                      let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+                      document.getElementsByClassName("input")[1].innerText = encrypted;
+                  });
 
-                // Use ilias's public key
+              } else if (recipient.includes("Argha")) {
+                  console.log(recipient + " is receiving: " + message);
 
-                let options = {
-                    data: message,                             // input as String (or Uint8Array)
-                    publicKeys: openpgp.key.readArmored(IliasPublicKey).keys,  // for encryption
-                };
+                  // Use Argha's public key
+                  console.log(recipient + " is receiving: " + message);
 
-                openpgp.encrypt(options).then(function(ciphertext) {
-                    let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
-                    document.getElementsByClassName("input")[1].innerText = encrypted;
-                });
+                  // Use ilias's public key
 
-            } else if (recipient.includes("Argha")) {
-                console.log(recipient + " is receiving: " + message);
+                  let options = {
+                      data: message,                             // input as String (or Uint8Array)
+                      publicKeys: openpgp.key.readArmored(ArghaPublicKey).keys,  // for encryption
+                  };
 
-                // Use Argha's public key
-                console.log(recipient + " is receiving: " + message);
+                  openpgp.encrypt(options).then(function(ciphertext) {
+                      let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+                      document.getElementsByClassName("input")[1].innerText = encrypted;
+                  });
 
-                // Use ilias's public key
+              } else if (recipient.includes("Jamie Webb")) {
 
-                let options = {
-                    data: message,                             // input as String (or Uint8Array)
-                    publicKeys: openpgp.key.readArmored(ArghaPublicKey).keys,  // for encryption
-                };
+                  // Use natalya's keys
+                  console.log(recipient + " is receiving: " + message);
 
-                openpgp.encrypt(options).then(function(ciphertext) {
-                    let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
-                    document.getElementsByClassName("input")[1].innerText = encrypted;
-                });
+                  // Use ilias's public key
 
-            } else if (recipient.includes("Jamie Webb")) {
+                  let options = {
+                      data: message,                             // input as String (or Uint8Array)
+                      publicKeys: openpgp.key.readArmored(NatalyaPublicKey).keys,  // for encryption
+                  };
 
-                // Use natalya's keys
-                console.log(recipient + " is receiving: " + message);
+                  openpgp.encrypt(options).then(function(ciphertext) {
+                      let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+                      document.getElementsByClassName("input")[1].innerText = encrypted;
+                  });
+              } else {
 
-                // Use ilias's public key
-
-                let options = {
-                    data: message,                             // input as String (or Uint8Array)
-                    publicKeys: openpgp.key.readArmored(NatalyaPublicKey).keys,  // for encryption
-                };
-
-                openpgp.encrypt(options).then(function(ciphertext) {
-                    let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
-                    document.getElementsByClassName("input")[1].innerText = encrypted;
-                });
-            } else {
-
-            }*/
+              }*/
         }
     });
 
@@ -437,6 +429,36 @@ document.addEventListener("click", function(){
 
 });
 
+/**
+ * Get
+ * @param userName
+ */
+function fetchUserByName(userName) {
+    "use strict";
+
+    /**
+     * ** DONE ** Replace the block below to check for the user's name in the 'recipient' variable.
+     * 1) Check if that name exists in local storage cache. if its exists, use the public key.
+     * 2) If it doesn't exist, then fetch from the API.
+     * */
+    // Need to get the key from the background script.
+
+    return new Promise(function (resolve, reject) {
+        chrome.runtime.sendMessage(
+            {
+                fetchUser: true,
+                full_name: userName
+            },
+            function(response) {
+                if (response === undefined) {
+                    reject("Failed to load the user.");
+                } else {
+                    resolve(response);
+                }
+            }
+        );
+    });
+}
 
 function decryptAndInsertMessageNatalya(options, valueOfK) {
     "use strict";
