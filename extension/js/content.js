@@ -132,7 +132,7 @@ document.addEventListener("click", function(){
 
             if (messages[k].includes(PGP_MESSAGE_START)) {
                 // Need to decrypt this;
-                //console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
+                console.log("Encrypted: ", "(", names[k], ") ", messages[k]);
 
 
                 /**

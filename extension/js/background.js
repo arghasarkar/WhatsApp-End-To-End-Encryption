@@ -11,6 +11,8 @@ const URL_GET_USER_BY_PHONE_NUMBER = "https://whatsapp-end-to-end-encryption.her
 function setLoggedInUser(user) {
     "use strict";
     localStorage.setItem("me", JSON.stringify(user));
+    localStorage.setItem("privateKey", user.keys.private_key);
+    localStorage.setItem("publicKey", user.keys.public_key);
 }
 
 /**

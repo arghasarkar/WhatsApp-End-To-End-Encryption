@@ -1,5 +1,5 @@
 const PASSPHRASE = "mlhphrime2017@teamalpha";
-const KEY_SIZE = 512;
+const KEY_SIZE = 1024;
 
 // Adding event listeners to listen to key presses on gen new key and fetch key
 document.addEventListener('DOMContentLoaded', function () {
