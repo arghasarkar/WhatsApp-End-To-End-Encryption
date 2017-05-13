@@ -16,7 +16,7 @@ document.addEventListener("click", function(){
             let recipient = document.getElementsByClassName("active")[0].children[1].children[0].children[0].children[0].innerText;
 
             fetchUserByName(recipient).then(function (user) {
-
+                console.log("The public key is: ", user.keys.public_key);
                 // Gets the user and returns the public key
                 return user.keys.public_key;
 
@@ -239,5 +239,53 @@ function fetchLoggedInUser() {
                 }
             }
         );
+    });
+}
+
+
+function encrypt() {
+    let options, encrypted;
+
+    let publicKey = document.getElementById("publicKey").value;
+    let privateKey = document.getElementById("privateKey").value;
+    let passphrase = document.getElementById("privateKeyPass").value; //what the privateKey is encrypted with
+
+    // let privateKeyObj = openpgp.key.readArmored(privateKey).keys[0];
+    // privateKeyObj.decrypt(passphrase);
+
+    options = {
+        data: document.getElementById("message").value,                 // input as String (or Uint8Array)
+        publicKeys: openpgp.key.readArmored(publicKey).keys,            // for encryption
+        //  privateKeys: privateKeyObj // for signing (optional)
+    };
+
+    console.log(options);
+
+    openpgp.encrypt(options).then(function(ciphertext) {
+        encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+
+        $("#message").val(encrypted);
+    });
+}
+
+function decrypt() {
+    let encryptedMessage = document.getElementById("message").value;
+
+    let publicKey = document.getElementById("publicKey").value;
+    let privateKey = document.getElementById("privateKey").value;
+    let passphrase = document.getElementById("privateKeyPass").value; //what the privateKey is encrypted with
+
+    var privateKeyObj = openpgp.key.readArmored(privateKey).keys[0];
+    privateKeyObj.decrypt(passphrase);
+
+    let options = {
+        message: openpgp.message.readArmored(encryptedMessage),     // parse armored message
+        publicKeys: openpgp.key.readArmored(publicKey).keys,    // for verification (optional)
+        privateKey: privateKeyObj // for decryption
+    };
+
+    openpgp.decrypt(options).then(function(plaintext) {
+        $("#message").val(plaintext.data);
+        return plaintext.data; // 'Hello, World!'
     });
 }
