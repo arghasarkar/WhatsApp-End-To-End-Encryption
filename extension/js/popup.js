@@ -56,27 +56,28 @@ function updateCurrentUser() {
 }
 
 /**
- * Generates a new PGP key. Returns a promise .
- * @returns {Promise}
+ *
+ * @param userIDs
+ * @param numBits
+ * @param passPhrase
+ * @returns {Promise.<TResult>|*}
  */
-function generateNewKey() {
+function generateNewKey(userIDs, numBits, passPhrase) {
     "use strict";
     console.log("Gen new key");
 
     let options = {
-        userIds: [{ name: user.full_name, email: user.email }],     // multiple user IDs
-        numBits: KEY_SIZE,                                          // RSA key size
-        passphrase: PASSPHRASE                                      // protects the private key
+        userIds: userIDs,     // multiple in array [ {name, email} ]
+        numBits: numBits,                                          // RSA key size. 4096 bits in production
+        passphrase: passPhrase                                      // protects the private key
     };
 
     return openpgp.generateKey(options).then(function(key) {
 
         let generatedKey = {};
-        generatedKey.private_key = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
-        generatedKey.public_key = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
-
-        user.keys = { };
-        user.keys = generatedKey;
+        generatedKey.privateKey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
+        generatedKey.publickey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... 'K
+        generatedKey.options = options;
 
         return generatedKey;
     });
